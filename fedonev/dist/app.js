@@ -6,9 +6,10 @@ const questions = [
   { title: 'Hol laksz?', hint: 'A pontos címet tartsd meg. Nekünk a terep típusa is elég.', options: ['Budapesten · a központban', 'Más városban · terepen', 'Falun · mély fedésben', 'Külföldön · nemzetközi vonalon'] },
   { title: 'Kit utálsz?', hint: 'Neveket nem kérünk. Még a képzeletbeli aktába sem.', options: ['A sorban tolakodókat', 'A folyton siettetőket', 'A hajnali hangoskodókat', 'Senkit · békés ügynök vagyok'] },
   { title: 'Kit szeretsz?', hint: 'Minden jó ügynöknek van egy gyenge pontja.', options: ['A barátaimat · a csapatot', 'A családomat · a hátországot', 'Az állatokat · a szőrös társakat', 'Magamat · valakinek muszáj'] },
-  { title: 'Mi a kedvenc színed?', hint: 'Az utolsó ecsetvonás a titkos személyiségedhez.', options: ['Vörös', 'Kék', 'Zöld', 'Sárga', 'Fekete', 'Lila'], colors: ['#c54a3b', '#4b75b8', '#5e8756', '#dfb831', '#282923', '#9370ad'] }
+  { title: 'Mi a kedvenc színed?', hint: 'Vallj színt. A fedőneved is színesebb lesz tőle.', options: ['Vörös', 'Kék', 'Zöld', 'Sárga', 'Fekete', 'Lila'], colors: ['#c54a3b', '#4b75b8', '#5e8756', '#dfb831', '#282923', '#9370ad'] },
+  { title: 'Milyen magas vagy?', hint: 'Cipő nélkül, fedősztorival. Elég a magassági kategória.', options: ['160 cm alatt · zsebügynök', '160–174 cm · könnyű elvegyülni', '175–189 cm · jó a kilátás', '190 cm vagy több · magaslati megfigyelő'] }
 ];
-let answers = Array(6).fill(null);
+let answers = Array(questions.length).fill(null);
 let step = 0;
 let screen = 'home';
 const arrow = '<span aria-hidden="true">↗</span>';
@@ -20,7 +21,7 @@ function home(announce = true) {
       <div class="hero-copy">
         <p class="eyebrow"><span class="small-cross">✳</span> CIVIL VAGY. EGYELŐRE.</p>
         <h1 tabindex="-1">Mindenkiben<br>lapul egy<br><span class="highlight">titkosügynök.</span></h1>
-        <p class="intro">Benned vajon hogy hívják?<br>Hat ártatlan kérdés. Egy gyanúsan jó fedőnév.</p>
+        <p class="intro">Benned vajon hogy hívják?<br>Hét ártatlan kérdés. Egy gyanúsan jó fedőnév.</p>
         <button class="primary" id="start">Kérem a fedőnevem ${arrow}</button>
         <p class="micro hero-micro"><span aria-hidden="true">◷</span> KB. 1 PERC <span>·</span> NINCS ROSSZ VÁLASZ</p>
       </div>
@@ -44,8 +45,7 @@ function home(announce = true) {
         <p class="scene-note">A neved marad. A fedősztorid változik. <span aria-hidden="true">↖</span></p>
       </div>
     </section>
-    <section class="how" aria-label="Így működik"><div class="section-label">A MŰVELET MENETE <span>↓</span></div><div class="how-item"><span class="step-number">01</span><div><h2>Vallj színt.</h2><p>Hat kérdés. Semmi kihallgatás.</p></div></div><div class="how-item"><span class="step-number">02</span><div><h2>Kapj fedőnevet.</h2><p>Egy kis kultúra. Egy nagy adag abszurd.</p></div></div><div class="how-item"><span class="step-number">03</span><div><h2>Add tovább.</h2><p>Az aktád szabadon megosztható.</p></div></div></section>
-    <div class="culture-strip"><span>ISMERŐS LEHET VALAHONNAN</span><p>Star Wars <b>✳</b> Tarantino <b>✳</b> Rejtő Jenő <b>✳</b> Micimackó <b>✳</b> Magyar rocklegendák <b>✳</b> A kilencvenes évek politikusai</p></div>`;
+    <section class="how" aria-label="Így működik"><div class="section-label">A MŰVELET MENETE <span class="operation-arrow" aria-hidden="true">→</span></div><div class="how-item"><span class="step-number">01</span><div><h2>Vallj színt.</h2><p>Hét kérdés. Semmi kihallgatás.</p></div></div><div class="how-item"><span class="step-number">02</span><div><h2>Kapj fedőnevet.</h2><p>Egy kis kultúra. Egy nagy adag abszurd.</p></div></div><div class="how-item"><span class="step-number">03</span><div><h2>Add tovább.</h2><p>Az aktád szabadon megosztható.</p></div></div></section>`;
   document.querySelector('#start').addEventListener('click', () => {answers.fill(null); step = 0; quiz();});
   if (announce) focusHeading();
 }
@@ -53,14 +53,14 @@ function quiz() {
   screen = 'quiz';
   const q = questions[step];
   main.innerHTML = `<section class="quiz-page"><div class="quiz-top"><button id="back" class="text-link">← ${step ? 'Előző kérdés' : 'Vissza a kezdőlapra'}</button><span class="micro">SZEMÉLYI AKTA / ADATFELVÉTEL</span></div>
-    <div class="progress-label"><span class="eyebrow">${String(step + 1).padStart(2, '0')} / 06 KÉRDÉS</span><span class="micro">${['ISMERKEDJÜNK.', 'MARADJ INKOGNITÓBAN.', 'MÉRJÜK FEL A TEREPET.', 'VAN EGY GYANÚNK.', 'KÖZEL JÁRUNK.', 'MÁR CSAK EGY VÁLASZ.'][step]}</span></div>
-    <div class="progress" role="progressbar" aria-label="Kérdések" aria-valuemin="0" aria-valuemax="6" aria-valuenow="${step + 1}">${questions.map((_, i) => `<i class="${i <= step ? 'filled' : ''}"></i>`).join('')}</div>
+    <div class="progress-label"><span class="eyebrow">${String(step + 1).padStart(2, '0')} / ${String(questions.length).padStart(2, '0')} KÉRDÉS</span><span class="micro">${['ISMERKEDJÜNK.', 'MARADJ INKOGNITÓBAN.', 'MÉRJÜK FEL A TEREPET.', 'VAN EGY GYANÚNK.', 'KÖZEL JÁRUNK.', 'MÁR LÁTSZIK A FEDŐSZTORI.', 'MÁR CSAK EGY VÁLASZ.'][step]}</span></div>
+    <div class="progress" role="progressbar" aria-label="Kérdések" aria-valuemin="0" aria-valuemax="${questions.length}" aria-valuenow="${step + 1}">${questions.map((_, i) => `<i class="${i <= step ? 'filled' : ''}"></i>`).join('')}</div>
     <form id="question-form"><fieldset><legend><h1 tabindex="-1">${q.title}</h1></legend><p class="question-hint" id="question-hint">${q.hint}</p><div class="options" ${q.colors ? 'data-colors="true"' : ''}>${q.options.map((option, i) => `<label class="option"><input type="radio" name="answer" value="${i}" ${answers[step] === i ? 'checked' : ''} aria-describedby="question-hint"><span class="choice-key">${q.colors ? `<i class="color-dot" style="--swatch:${q.colors[i]}"></i>` : letters[i]}</span><span class="option-label">${option}</span><span class="choice-check" aria-hidden="true">↗</span></label>`).join('')}</div></fieldset>
-    <div class="quiz-actions"><span class="micro">${step === 5 ? 'A FEDŐSZTORID ÖSSZEÁLLT.' : 'A VÁLASZOD KÖZTÜNK MARAD.'}</span><button class="primary" type="submit" ${answers[step] === null ? 'disabled' : ''}>${step === 5 ? 'Felfedem a fedőnevem' : 'Következő kérdés'} ${arrow}</button></div></form></section>`;
+    <div class="quiz-actions"><span class="micro">${step === questions.length - 1 ? 'A FEDŐSZTORID ÖSSZEÁLLT.' : 'A VÁLASZOD KÖZTÜNK MARAD.'}</span><button class="primary" type="submit" ${answers[step] === null ? 'disabled' : ''}>${step === questions.length - 1 ? 'Felfedem a fedőnevem' : 'Következő kérdés'} ${arrow}</button></div></form></section>`;
   document.querySelector('#back').addEventListener('click', () => {if (step) {step--; quiz();} else home();});
   const form = document.querySelector('#question-form');
   form.addEventListener('change', e => {answers[step] = Number(e.target.value); form.querySelector('button[type="submit"]').disabled = false;});
-  form.addEventListener('submit', e => {e.preventDefault(); if (answers[step] === null) return; if (step < 5) {step++; quiz();} else {const result = AgentNames.fromAnswers(answers); location.hash = result.hash;}});
+  form.addEventListener('submit', e => {e.preventDefault(); if (answers[step] === null) return; if (step < questions.length - 1) {step++; quiz();} else {const result = AgentNames.fromAnswers(answers); location.hash = result.hash;}});
   focusHeading();
 }
 function resultPage(result) {

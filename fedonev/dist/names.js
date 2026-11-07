@@ -123,19 +123,80 @@ const AgentNames = (() => {
     'Otthonülő', 'Békés', 'Dacos', 'Büszke', 'Szerény', 'Furfangos',
     'Leleményes', 'Merengő', 'Bóbiskoló', 'Doromboló', 'Csibész', 'Huncut'
   ];
-  const total = 6144;
-  const version = 'v2';
+  const basesV3 = [
+    ...bases,
+    ['Pató Pál', 'Petőfi Sándor · Pató Pál úr'],
+    ['Kukorica Jancsi', 'Petőfi Sándor · János vitéz'],
+    ['János Vitéz', 'Petőfi Sándor · János vitéz'],
+    ['Tündér Iluska', 'Petőfi Sándor · János vitéz'],
+    ['Fejenagy Feri', 'Petőfi Sándor · A helység kalapácsa'],
+    ['Harangláb Huba', 'Petőfi Sándor · A helység kalapácsa'],
+    ['Bagarja Béla', 'Petőfi Sándor · A helység kalapácsa'],
+    ['Csepű Palkó', 'Petőfi Sándor · A helység kalapácsa'],
+    ['Anyám Tyúkja', 'Petőfi Sándor · Anyám tyúkja'],
+    ['Füstbement Feri', 'Petőfi Sándor · Füstbement terv'],
+    ['Szeptember Soma', 'Petőfi Sándor · Szeptember végén'],
+    ['Nemzeti Nándor', 'Petőfi Sándor · Nemzeti dal'],
+    ['Arany Laci', 'Petőfi Sándor · Arany Lacinak'],
+    ['Beforduló Bálint', 'Petőfi Sándor · Befordultam a konyhára'],
+    ['Alföldi Aladár', 'Petőfi Sándor · Az alföld'],
+    ['Tisza Tihamér', 'Petőfi Sándor · A Tisza'],
+    ['Ötvös Csöpi', 'Ötvös Csöpi-filmek · A pogány madonna'],
+    ['Kardos Doktor', 'Ötvös Csöpi-filmek · A pogány madonna'],
+    ['Pogány Madár', 'Ötvös Csöpi-filmek · A pogány madonna'],
+    ['Hamis Baba', 'Ötvös Csöpi-filmek · Hamis a baba'],
+    ['Dollár Dönci', 'Ötvös Csöpi-filmek · Az elvarázsolt dollár'],
+    ['Pánik Pali', 'Ötvös Csöpi-filmek · Csak semmi pánik'],
+    ['Tihanyi Tihamér', 'Ötvös Csöpi-filmek · A pogány madonna'],
+    ['Balatoni Bunyós', 'Ötvös Csöpi-filmek · A pogány madonna'],
+    ['Vitorlás Vili', 'Ötvös Csöpi-filmek · A pogány madonna'],
+    ['Stukker Sanyi', 'Ötvös Csöpi-filmek · A pogány madonna'],
+    ['Matuska Müzli', 'Ötvös Csöpi-filmek · A pogány madonna'],
+    ['Bence Bójakerülő', 'Ötvös Csöpi-filmek · A pogány madonna'],
+    ['Madonna Misi', 'Ötvös Csöpi-filmek · A pogány madonna'],
+    ['Dollár Doktor', 'Ötvös Csöpi-filmek · Az elvarázsolt dollár'],
+    ['Baba Bandi', 'Ötvös Csöpi-filmek · Hamis a baba'],
+    ['Pánik Pista', 'Ötvös Csöpi-filmek · Csak semmi pánik']
+  ];
+  const prefixesV3 = [
+    ...prefixes,
+    'Kétballábas', 'Genya', 'Lökött', 'Boomer',
+    'Bohókás', 'Bolondos', 'Hóbortos', 'Bambácska', 'Csacska', 'Szeleburdi',
+    'Szegény', 'Gazdag', 'Szerencsés', 'Balszerencsés', 'Ráérős', 'Sietős',
+    'Megfontolt', 'Kapkodó', 'Tanácstalan', 'Magabiztos', 'Szótlan', 'Bőbeszédű',
+    'Beszédes', 'Szűkszavú', 'Nyájas', 'Mord', 'Zord', 'Barátságos',
+    'Kedves', 'Komisz', 'Csintalan', 'Pimasz', 'Szemtelen', 'Flegma',
+    'Fapofájú', 'Faarcú', 'Rebbenéstelen', 'Lánglelkű', 'Ábrándos', 'Romantikus',
+    'Gáláns', 'Daliás', 'Délceg', 'Cingár', 'Nyurga', 'Sudár',
+    'Apró', 'Pöttöm', 'Hórihorgas', 'Szálas', 'Zömök', 'Mackós',
+    'Cammogó', 'Tipegő', 'Botladozó', 'Csoszogó', 'Szökdécselő', 'Táncos',
+    'Daloló', 'Dúdoló', 'Fütyörésző', 'Horkoló', 'Ásító', 'Pislogó',
+    'Hunyorító', 'Kacsintó', 'Mosolygós', 'Vigyorgó', 'Durcás', 'Nyűgös',
+    'Zsémbes', 'Zsörtölődő', 'Háklis', 'Finnyás', 'Ínyenc', 'Falánk',
+    'Torkos', 'Nassoló', 'Mazsolás', 'Mákos', 'Diós', 'Mézes',
+    'Lekváros', 'Paprikás', 'Csípős', 'Borsos', 'Sós', 'Édes',
+    'Keserű', 'Savanyú', 'Fanyar', 'Ropogós', 'Pirított', 'Bundás',
+    'Bolyhos', 'Bársonyos', 'Selymes', 'Gyűrött', 'Vasalatlan', 'Kifent',
+    'Fényes', 'Matt', 'Kockás', 'Pöttyös', 'Csíkos', 'Mintás',
+    'Tarka', 'Ezüst', 'Arany', 'Bronz', 'Rozsdás', 'Poros',
+    'Sáros', 'Havas', 'Szeles', 'Napos', 'Ködös', 'Borús',
+    'Villámos', 'Mennydörgő', 'Viharos', 'Szikrázó', 'Csillogó', 'Holdkóros',
+    'Álmodozó', 'Mélázó', 'Töprengő', 'Zavarodott'
+  ];
+  const limits = [4, 4, 4, 4, 4, 6, 4];
+  const total = limits.reduce((product, count) => product * count, 1);
+  const version = 'v3';
   function fromAnswers(answers) {
-    const limits = [4, 4, 4, 4, 4, 6];
-    if (!Array.isArray(answers) || answers.length !== 6 ||
+    if (!Array.isArray(answers) || answers.length !== limits.length ||
         !limits.every((limit, i) => Number.isInteger(answers[i]) && answers[i] >= 0 && answers[i] < limit)) {
       throw new Error('Hiányzó vagy hibás válasz.');
     }
-    const [age, name, place, hate, love, color] = answers;
-    return fromId(((age * 16 + name * 4 + place) * 6 + color) * 16 + hate * 4 + love);
+    const id = answers.reduce((value, answer, i) => value * limits[i] + answer, 0);
+    return fromId(id);
   }
   function fromId(id, resultVersion = version) {
-    if (!Number.isInteger(id) || id < 0 || id >= total) return null;
+    const maximum = resultVersion === version ? total : 6144;
+    if (!Number.isInteger(id) || id < 0 || id >= maximum) return null;
     const code = id.toString(36).padStart(3, '0');
     const hash = `#akta=${resultVersion}-${code}`;
     if (resultVersion === 'v1') {
@@ -146,17 +207,18 @@ const AgentNames = (() => {
         name: `${colors[color]} ${legacyBases[base][0]}, ${legacyTitles[title]}`,
         inspiration: legacyBases[base][1], color: colors[color]};
     }
-    if (resultVersion !== version) return null;
-    // 2053 and 6144 are coprime: this is a fixed bijection, not randomness.
-    // It distributes all six answers across the name and the optional prefix.
-    const index = (id * 2053) % total;
-    const [base, inspiration] = bases[index % bases.length];
-    const prefix = prefixes[Math.floor(index / bases.length)];
-    return {id, version, hash, code, base, prefix,
+    if (resultVersion !== 'v2' && resultVersion !== version) return null;
+    const selectedBases = resultVersion === 'v2' ? bases : basesV3;
+    const selectedPrefixes = resultVersion === 'v2' ? prefixes : prefixesV3;
+    // 2053 is coprime with both version totals: each mapping is a fixed bijection.
+    const index = (id * 2053) % maximum;
+    const [base, inspiration] = selectedBases[index % selectedBases.length];
+    const prefix = selectedPrefixes[Math.floor(index / selectedBases.length)];
+    return {id, version: resultVersion, hash, code, base, prefix,
       name: prefix ? `${prefix} ${base}` : base, inspiration};
   }
   function fromHash(hash) {
-    const match = /^#akta=(v1|v2)-([0-9a-z]{3})$/.exec(hash);
+    const match = /^#akta=(v1|v2|v3)-([0-9a-z]{3})$/.exec(hash);
     return match ? fromId(parseInt(match[2], 36), match[1]) : null;
   }
   return {fromAnswers, fromId, fromHash, total, version};
