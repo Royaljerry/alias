@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#edece4">
+  <meta name="description" content="Hat ártatlan kérdés. Egy gyanúsan jó fedőnév. Fedezd fel a belső titkosügynököd, és oszd meg az aktádat!">
+  <title>Fedőnév — Mi a te ügynökneved?</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="names.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="site-shell">
+    <header class="masthead">
+      <a class="wordmark" href="#" aria-label="Fedőnév – kezdőlap"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 10h24v17H4zM9 10V5h14v5M4 16h24M13 14h6v5h-6"/></svg>FEDŐNÉV<span>✳</span></a>
+      <span class="masthead-note">FIKTÍV ÜGYEK OSZTÁLYA</span>
+      <span class="status"><i></i> FELVÉTEL FOLYAMATBAN</span>
+    </header>
+    <main id="main"></main>
+    <footer>
+      <span>© FEDŐNÉV · SZIGORÚAN KOMOLYTALAN.</span>
+      <button class="text-link" id="about-open">Mi ez az egész? <span aria-hidden="true">↗</span></button>
+      <span class="footer-note">SE SÜTI. SE ADATGYŰJTÉS. CSAK FEDŐNEVEK.</span>
+    </footer>
+  </div>
+  <dialog id="about" aria-labelledby="about-title">
+    <button class="dialog-close" aria-label="Bezárás">×</button>
+    <p class="eyebrow">HÁTTÉRINFORMÁCIÓ / 001</p>
+    <h2 id="about-title">Ez csak egy fedősztori.</h2>
+    <p>A Fedőnév egy humoros popkulturális névgenerátor. A titkos fedőnevek világát a <a href="https://nyitottaktak.hu/" target="_blank" rel="noopener noreferrer">Nyitott Akták</a> projekt idézte meg számunkra. Ez egy önálló játék, nem a projekt része, és nem történelmi adatbázis.</p>
+    <p>A játék egyetlen szereplőről vagy játékosról sem állítja, hogy ügynök volt. A történelmi megfigyelés valós áldozatainak története nem a játék tárgya.</p>
+    <p>A fedőnevek Star Wars- és Tarantino-filmek, Rejtő Jenő regényei, Micimackó, valamint régi magyar zenék játékos átiratai. Dalszövegeket nem használunk.</p>
+    <p>Minden a böngésződben történik. A válaszokat az alkalmazás nem küldi el és nem tárolja. A megosztási link az eredmény kódját tartalmazza; ez nem titkosítás.</p>
+  </dialog>
+  <noscript><p class="noscript">A fedőnév megállapításához engedélyezd a JavaScriptet a böngésződben.</p></noscript>
+</body>
+</html>
