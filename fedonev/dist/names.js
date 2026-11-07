@@ -1,7 +1,7 @@
-/* Version 1 is permanent: append new versions rather than reordering these lists.
+/* Published dictionaries are permanent: add a new version instead of reordering.
    Each entry is an original parody name followed by its cultural inspiration. */
 const AgentNames = (() => {
-  const bases = [
+  const legacyBases = [
     ['Darth Lekvár', 'Star Wars · Darth Vader'],
     ['Obi-Wan Kenyérbi', 'Star Wars · Obi-Wan Kenobi'],
     ['Han Szaló', 'Star Wars · Han Solo'],
@@ -68,30 +68,97 @@ const AgentNames = (() => {
     ['Gyöngyhajú Géza', 'Omega · Gyöngyhajú lány']
   ];
   const colors = ['Vörös', 'Kék', 'Zöld', 'Sárga', 'Fekete', 'Lila'];
-  const titles = [
+  const legacyTitles = [
     'a bátor szövetséges', 'a családi összekötő', 'a félénk állatbarát', 'a magányos hős',
     'a baráti vészfék', 'a rokoni gyorssegély', 'a bundás rend őre', 'a nyugodt túlélő',
     'a csendes cinkos', 'a vasárnapi békebíró', 'a doromboló diplomata', 'a szunyókáló stratéga',
     'a békés bajtárs', 'a szeretetügynök', 'a mancsos békekövet', 'a titkos önimádó'
   ];
-  const total = bases.length * colors.length * titles.length;
+  // Keep the original dictionary and formatter for previously shared v1 URLs.
+  // V2 has 96 base names and 64 optional, single-word prefixes: 6144 unique names.
+  const bases = [
+    ...legacyBases.map(([name, inspiration]) => [name.split(',')[0], inspiration]),
+    ['Darth Vader', 'Star Wars · Darth Vader'],
+    ['Luke Skywalker', 'Star Wars · Luke Skywalker'],
+    ['Lando Kalóriás', 'Star Wars · Lando Calrissian'],
+    ['Qui-Gon Jinn', 'Star Wars · Qui-Gon Jinn'],
+    ['Dooku Gróf', 'Star Wars · Dooku'],
+    ['C-3Presszó', 'Star Wars · C-3PO'],
+    ['Padmé Paprikás', 'Star Wars · Padmé Amidala'],
+    ['Mace Windu', 'Star Wars · Mace Windu'],
+    ['Ordell Omlett', 'Tarantino · Jackie Brown'],
+    ['Butch Bundás', 'Tarantino · Ponyvaregény'],
+    ['Mr. Narancs', 'Tarantino · Kutyaszorítóban'],
+    ['Hattori Hántoló', 'Tarantino · Kill Bill'],
+    ['Elle Drazsé', 'Tarantino · Kill Bill'],
+    ['O-Ren Sushi', 'Tarantino · Kill Bill'],
+    ['Aldo Rágó', 'Tarantino · Becstelen brigantyk'],
+    ['Marsellus Waffel', 'Tarantino · Ponyvaregény'],
+    ['Antall Aktatáska', 'Kilencvenes évek · Antall József'],
+    ['Boross Boríték', 'Kilencvenes évek · Boross Péter'],
+    ['Horn Hokedli', 'Kilencvenes évek · Horn Gyula'],
+    ['Torgyán Túrógombóc', 'Kilencvenes évek · Torgyán József'],
+    ['Kuncze Kulcscsomó', 'Kilencvenes évek · Kuncze Gábor'],
+    ['Pető Papírkutya', 'Kilencvenes évek · Pető Iván'],
+    ['Orbán Orbitális', 'Kilencvenes évek · Orbán Viktor'],
+    ['Deutsch Dosszié', 'Kilencvenes évek · Deutsch Tamás'],
+    ['Áder Álcabajusz', 'Kilencvenes évek · Áder János'],
+    ['Fodor Fénymásoló', 'Kilencvenes évek · Fodor Gábor'],
+    ['Demszky Díszjárat', 'Kilencvenes évek · Demszky Gábor'],
+    ['Göncz Gombóc', 'Kilencvenes évek · Göncz Árpád'],
+    ['Dávid Drazsé', 'Kilencvenes évek · Dávid Ibolya'],
+    ['Bokros Batyu', 'Kilencvenes évek · Bokros Lajos'],
+    ['Békesi Béleltboríték', 'Kilencvenes évek · Békesi László'],
+    ['Szabó Szaloncukor', 'Kilencvenes évek · Szabó Iván']
+  ];
+  const prefixes = [
+    '', ...colors,
+    'Bátor', 'Félénk', 'Gyáva', 'Vakmerő', 'Óvatos', 'Ravasz', 'Csendes',
+    'Hangos', 'Álmos', 'Éber', 'Lusta', 'Fürge', 'Nyugodt', 'Izgága',
+    'Mogorva', 'Vidám', 'Morcos', 'Derűs', 'Komoly', 'Játékos', 'Titkos',
+    'Rejtélyes', 'Gyanús', 'Ártatlan', 'Álcázott', 'Láthatatlan', 'Hűséges',
+    'Makacs', 'Kíváncsi', 'Szórakozott', 'Pedáns', 'Rendetlen', 'Éhes',
+    'Jóllakott', 'Szomjas', 'Kócos', 'Elegáns', 'Zsebes', 'Papucsos',
+    'Bajszos', 'Kalapos', 'Mezítlábas', 'Surranó', 'Lopakodó', 'Kóbor',
+    'Otthonülő', 'Békés', 'Dacos', 'Büszke', 'Szerény', 'Furfangos',
+    'Leleményes', 'Merengő', 'Bóbiskoló', 'Doromboló', 'Csibész', 'Huncut'
+  ];
+  const total = 6144;
+  const version = 'v2';
   function fromAnswers(answers) {
     const limits = [4, 4, 4, 4, 4, 6];
-    if (!Array.isArray(answers) || answers.length !== 6 || answers.some((v, i) => !Number.isInteger(v) || v < 0 || v >= limits[i])) throw new Error('Hiányzó vagy hibás válasz.');
+    if (!Array.isArray(answers) || answers.length !== 6 ||
+        !limits.every((limit, i) => Number.isInteger(answers[i]) && answers[i] >= 0 && answers[i] < limit)) {
+      throw new Error('Hiányzó vagy hibás válasz.');
+    }
     const [age, name, place, hate, love, color] = answers;
     return fromId(((age * 16 + name * 4 + place) * 6 + color) * 16 + hate * 4 + love);
   }
-  function fromId(id) {
+  function fromId(id, resultVersion = version) {
     if (!Number.isInteger(id) || id < 0 || id >= total) return null;
-    const title = id % 16;
-    const color = Math.floor(id / 16) % 6;
-    const base = Math.floor(id / 96);
-    return {id, name: `${colors[color]} ${bases[base][0]}, ${titles[title]}`, inspiration: bases[base][1], code: id.toString(36).padStart(3, '0'), color: colors[color]};
+    const code = id.toString(36).padStart(3, '0');
+    const hash = `#akta=${resultVersion}-${code}`;
+    if (resultVersion === 'v1') {
+      const title = id % 16;
+      const color = Math.floor(id / 16) % 6;
+      const base = Math.floor(id / 96);
+      return {id, version: resultVersion, hash, code,
+        name: `${colors[color]} ${legacyBases[base][0]}, ${legacyTitles[title]}`,
+        inspiration: legacyBases[base][1], color: colors[color]};
+    }
+    if (resultVersion !== version) return null;
+    // 2053 and 6144 are coprime: this is a fixed bijection, not randomness.
+    // It distributes all six answers across the name and the optional prefix.
+    const index = (id * 2053) % total;
+    const [base, inspiration] = bases[index % bases.length];
+    const prefix = prefixes[Math.floor(index / bases.length)];
+    return {id, version, hash, code, base, prefix,
+      name: prefix ? `${prefix} ${base}` : base, inspiration};
   }
   function fromHash(hash) {
-    const match = /^#akta=v1-([0-9a-z]{3})$/.exec(hash);
-    return match ? fromId(parseInt(match[1], 36)) : null;
+    const match = /^#akta=(v1|v2)-([0-9a-z]{3})$/.exec(hash);
+    return match ? fromId(parseInt(match[2], 36), match[1]) : null;
   }
-  return {fromAnswers, fromId, fromHash, total};
+  return {fromAnswers, fromId, fromHash, total, version};
 })();
 if (typeof module !== 'undefined') module.exports = AgentNames;

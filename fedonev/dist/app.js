@@ -45,7 +45,7 @@ function home(announce = true) {
       </div>
     </section>
     <section class="how" aria-label="Így működik"><div class="section-label">A MŰVELET MENETE <span>↓</span></div><div class="how-item"><span class="step-number">01</span><div><h2>Vallj színt.</h2><p>Hat kérdés. Semmi kihallgatás.</p></div></div><div class="how-item"><span class="step-number">02</span><div><h2>Kapj fedőnevet.</h2><p>Egy kis kultúra. Egy nagy adag abszurd.</p></div></div><div class="how-item"><span class="step-number">03</span><div><h2>Add tovább.</h2><p>Az aktád szabadon megosztható.</p></div></div></section>
-    <div class="culture-strip"><span>ISMERŐS LEHET VALAHONNAN</span><p>Star Wars <b>✳</b> Tarantino <b>✳</b> Rejtő Jenő <b>✳</b> Micimackó <b>✳</b> Magyar rocklegendák</p></div>`;
+    <div class="culture-strip"><span>ISMERŐS LEHET VALAHONNAN</span><p>Star Wars <b>✳</b> Tarantino <b>✳</b> Rejtő Jenő <b>✳</b> Micimackó <b>✳</b> Magyar rocklegendák <b>✳</b> A kilencvenes évek politikusai</p></div>`;
   document.querySelector('#start').addEventListener('click', () => {answers.fill(null); step = 0; quiz();});
   if (announce) focusHeading();
 }
@@ -60,14 +60,13 @@ function quiz() {
   document.querySelector('#back').addEventListener('click', () => {if (step) {step--; quiz();} else home();});
   const form = document.querySelector('#question-form');
   form.addEventListener('change', e => {answers[step] = Number(e.target.value); form.querySelector('button[type="submit"]').disabled = false;});
-  form.addEventListener('submit', e => {e.preventDefault(); if (answers[step] === null) return; if (step < 5) {step++; quiz();} else {const result = AgentNames.fromAnswers(answers); location.hash = `akta=v1-${result.code}`;}});
+  form.addEventListener('submit', e => {e.preventDefault(); if (answers[step] === null) return; if (step < 5) {step++; quiz();} else {const result = AgentNames.fromAnswers(answers); location.hash = result.hash;}});
   focusHeading();
 }
 function resultPage(result) {
   screen = 'result';
-  main.innerHTML = `<section class="result-page"><p class="eyebrow"><i class="live-dot"></i> AZONOSÍTÁS SIKERES / AKTA FELOLDVA</p><div class="result-file"><div class="file-top"><span>FIKTÍV ÜGYEK OSZTÁLYA</span><span id="record-number"></span></div><p class="result-kicker">Az ügynökneved:</p><h1 tabindex="-1" id="agent-name"></h1><div class="result-divider"><span>✳</span><i></i><span>HITELESEN KITALÁLT</span></div><p class="inspiration-label micro">KULTURÁLIS UJJLENYOMAT</p><p id="inspiration"></p><p class="result-note">A fedőnév kötelez. Leginkább arra, hogy ne vedd túl komolyan.</p></div><h2>Ezt az aktát nem kell titkolnod.</h2><p class="share-intro">Oszd meg az ügynöknevedet a barátaiddal!</p><div class="share-actions"><button class="primary" id="copy">Link másolása <span aria-hidden="true">↗</span></button><button class="secondary" id="share" hidden>Megosztás <span aria-hidden="true">↑</span></button></div><p id="share-status" role="status" class="share-status"></p><div id="manual-copy" hidden><label for="share-url">Másold ki ezt a linket:</label><input id="share-url" readonly></div><button class="text-link restart" id="restart">↶ Új akta, új fedőnév</button></section>`;
+  main.innerHTML = `<section class="result-page"><p class="eyebrow"><i class="live-dot"></i> AZONOSÍTÁS SIKERES / AKTA FELOLDVA</p><div class="result-file"><div class="file-top"><span>FIKTÍV ÜGYEK OSZTÁLYA</span><span id="record-number"></span></div><p class="result-kicker">Az ügynökneved:</p><h1 tabindex="-1" id="agent-name"></h1><div class="result-divider"><span>✳</span><i></i><span>HITELESEN KITALÁLT</span></div><p class="result-note">A fedőnév kötelez. Leginkább arra, hogy ne vedd túl komolyan.</p></div><h2>Ezt az aktát nem kell titkolnod.</h2><p class="share-intro">Oszd meg az ügynöknevedet a barátaiddal!</p><div class="share-actions"><button class="primary" id="copy">Link másolása <span aria-hidden="true">↗</span></button><button class="secondary" id="share" hidden>Megosztás <span aria-hidden="true">↑</span></button></div><p id="share-status" role="status" class="share-status"></p><div id="manual-copy" hidden><label for="share-url">Másold ki ezt a linket:</label><input id="share-url" readonly></div><button class="text-link restart" id="restart">↶ Új akta, új fedőnév</button></section>`;
   document.querySelector('#agent-name').textContent = result.name;
-  document.querySelector('#inspiration').textContent = result.inspiration;
   document.querySelector('#record-number').textContent = `AKTA / ${result.code.toUpperCase()}`;
   document.title = `${result.name} — Fedőnév`;
   const status = document.querySelector('#share-status');

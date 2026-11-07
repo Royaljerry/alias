@@ -13,15 +13,16 @@ python3 -m http.server 4173
 
 Open http://localhost:4173. The Python command is only an optional file server; all application logic runs in the browser.
 
-To share results with other people, upload the **contents of `dist/`** to a publicly accessible static host. A `file:` URL or localhost URL only works on your own computer. No rewrite rules are required: results use URL fragments, such as `#akta=v1-17k`.
+To share results with other people, upload the **contents of `dist/`** to a publicly accessible static host. A `file:` URL or localhost URL only works on your own computer. No rewrite rules are required: results use URL fragments, such as `#akta=v2-17k`.
 
 ## Behavior
 
 - Six Hungarian multiple-choice questions: age group, first-name initial, location category, dislikes, loved ones and favorite color.
 - Four options per question; six color options. No precise personal details are collected.
-- 64 original parody names × 6 color adjectives × 16 personality epithets = **6144 distinct names**.
+- 96 base names × 64 optional single-word prefixes = **6144 distinct names**.
+- A name has at most one added prefix (a color or personality adjective), placed before the base name. Some results have no prefix. No trailing personality phrases or cultural attribution appear on the result screen.
 - Every answer affects the output. Every valid combination has a distinct, deterministic name; two people choosing the same answers get the same name.
-- All requested cultural worlds and all eleven Hungarian bands are represented. Song titles inspire original names; no lyrics are reproduced.
+- All requested cultural worlds, all eleven Hungarian bands and sixteen Hungarian politicians active in the 1990s are represented. Song titles inspire original names; no lyrics are reproduced.
 - Progress indicator, back navigation preserving answers, keyboard-accessible native radios, result screen, restart, copy link, optional native sharing and manual-copy fallback.
 - Reloading or opening a result link restores the result without completing the quiz.
 - Versioned result IDs are validated. Invalid or unknown versions show a recovery screen.
@@ -32,7 +33,7 @@ To share results with other people, upload the **contents of `dist/`** to a publ
 - `dist/index.html`: document shell and project explanation.
 - `dist/style.css`: responsive visual design and locally bundled font declarations.
 - `dist/app.js`: quiz, routing and sharing UI.
-- `dist/names.js`: permanent version-1 name dictionary and deterministic mapping.
+- `dist/names.js`: versioned dictionaries and deterministic mapping.
 - `dist/fonts/`: self-hosted Google Fonts (Barlow Condensed, DM Sans, IBM Plex Mono), with SIL Open Font Licenses.
 - `tests/names.test.cjs`: exhaustive name and link verification, invalid-input checks and stable-link fixtures.
 
@@ -45,7 +46,7 @@ node --check dist/app.js
 node --test tests/names.test.cjs
 ```
 
-Do not reorder or change version-1 dictionary entries after publication: doing so changes old links. Introduce a new URL version and retain the old dictionary when changing the naming scheme.
+New quizzes create v2 links. Existing v1 links retain their original names. Do not reorder or change published dictionaries or mappings: doing so changes old links. Introduce a new URL version and retain the old dictionary when changing the naming scheme.
 
 ## Background
 
