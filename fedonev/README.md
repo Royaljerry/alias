@@ -15,6 +15,18 @@ Open http://localhost:4173. The Python command is only an optional file server; 
 
 To share results with other people, upload the **contents of `dist/`** to a publicly accessible static host. A `file:` URL or localhost URL only works on your own computer. No rewrite rules are required: results use URL fragments, such as `#akta=v2-17k`.
 
+## GitHub Pages
+
+The repository includes `.github/workflows/pages.yml`, which tests and publishes only `fedonev/dist/`. No build or application server is needed.
+
+1. Open the repository's **Settings → Pages** and choose **GitHub Actions** under **Build and deployment → Source**.
+2. Commit the workflow and push it, together with the application, to `main`.
+3. In **Actions**, wait for **Publish Fedonev to GitHub Pages** to finish. The deployment summary and **Settings → Pages** show the live URL.
+
+For `Royaljerry/alias`, the default project URL is `https://royaljerry.github.io/alias/` unless a custom domain is configured. Results use fragments, for example `https://royaljerry.github.io/alias/#akta=v2-2n4`. Assets use relative paths, so the `/alias/` prefix works without changes or rewrite rules.
+
+Subsequent pushes changing the app, its tests or the workflow publish automatically after the checks pass. You can also run it manually from **Actions → Publish Fedonev to GitHub Pages → Run workflow**. This public deployment is separate from the private Sites preview.
+
 ## Behavior
 
 - Six Hungarian multiple-choice questions: age group, first-name initial, location category, dislikes, loved ones and favorite color.
